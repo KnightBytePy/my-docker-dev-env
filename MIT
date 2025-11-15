@@ -1,0 +1,47 @@
+
+---
+
+## 🐳 `Dockerfile`
+
+```dockerfile
+# Base image: Ubuntu with Python 3.11
+FROM python:3.11-slim
+
+# Avoid interactive prompts during apt installs
+ENV DEBIAN_FRONTEND=noninteractive
+
+# System deps for common DS/ML libs
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    curl \
+    wget \
+    ca-certificates \
+    libblas-dev \
+    liblapack-dev \
+    gfortran \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user (vscode) for dev containers
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && mkdir -p /workspace \
+    && chown $USERNAME:$USERNAME /workspace
+
+WORKDIR /workspace
+
+# Copy requirements first (for better Docker layer caching)
+COPY requirements.txt /tmp/requirements.txt
+
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Default to non-root user
+USER $USERNAME
+
+# Default command
+CMD [ "bash" ]
