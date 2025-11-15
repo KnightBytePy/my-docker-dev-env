@@ -58,7 +58,7 @@ Then you can:
 
 ---
 
-## 🐳 Using Docker directly (optional)
+## 🐳 Using Docker directly
 
 Build the image:
 
