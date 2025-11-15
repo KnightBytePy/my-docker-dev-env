@@ -1,0 +1,29 @@
+# Core
+numpy
+pandas
+scikit-learn
+
+# Visualization
+matplotlib
+seaborn
+
+# Notebooks
+jupyter
+jupyterlab
+ipykernel
+
+# ML / DL
+xgboost
+lightgbm
+torch
+torchvision
+
+# Optimization / tuning
+optuna
+
+# Utilities & tooling
+tqdm
+black
+isort
+mypy
+python-dotenv
